@@ -60,7 +60,9 @@ namespace :unicorn do
         info "unicorn restarting..."
         execute :kill, "-s USR2", pid
         execute :sleep, fetch(:unicorn_restart_sleep_time)
-        execute :kill, "-s QUIT", pid_oldbin
+        if test("[ -e #{fetch(:unicorn_pid)}.oldbin ]")
+          execute :kill, "-s QUIT", pid_oldbin
+        end
       end
     end
   end

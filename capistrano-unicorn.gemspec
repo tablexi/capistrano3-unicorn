@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |gem|
   gem.name          = "capistrano-unicorn"
-  gem.version       = '0.0.1'
+  gem.version       = '0.0.2'
   gem.authors       = ["Matthew Lineen"]
   gem.email         = ["matthew@lineen.com"]
   gem.description   = "Unicorn specific Capistrano tasks"
@@ -15,5 +15,4 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_dependency 'capistrano', '>= 3.0.0'
-  gem.add_dependency 'capistrano-bundler', '>= 1.0.0'
 end
