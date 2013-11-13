@@ -1,4 +1,46 @@
+namespace :load do
+  task :defaults do
+    set :unicorn_pid, -> { File.join(shared_path, "pids", "unicorn.pid") }
+    set :unicorn_config_path, -> { File.join(current_path, "config", "unicorn", "#{fetch(:rails_env)}.rb") }
+    set :unicorn_restart_sleep_time, 3
+  end
+end
+
 namespace :unicorn do
+  desc 'Start Unicorn'
+  task :start do
+    on roles(:app) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          if test("[ -e #{fetch(:unicorn_pid)} ] && kill -0 #{pid}")
+            info "unicorn is running..."
+          else
+            execute :bundle, "exec unicorn", "-c", fetch(:unicorn_config_path), "-E", fetch(:rails_env), "-D"
+          end
+        end
+      end
+    end
+  end
+
+  desc 'Stop Unicorn (QUIT)'
+  task :stop do
+    on roles(:app) do
+      within release_path do
+        if test("[ -e #{fetch(:unicorn_pid)} ]")
+          if test("kill -0 #{pid}")
+            info "stopping unicorn..."
+            execute :kill, "-s QUIT", pid
+          else
+            info "cleaning up dead unicorn pid..."
+            execute :rm, fetch(:unicorn_pid)
+          end
+        else
+          info "unicorn is not running..."
+        end
+      end
+    end
+  end
+
   desc 'Reload Unicorn (HUP); use this when preload_app: false'
   task :reload do
     invoke 'unicorn:start'
@@ -17,38 +59,8 @@ namespace :unicorn do
       within release_path do
         info "unicorn restarting..."
         execute :kill, "-s USR2", pid
-        sleep 1
+        execute :sleep, fetch(:unicorn_restart_sleep_time)
         execute :kill, "-s QUIT", pid_oldbin
-      end
-    end
-  end
-
-  desc 'Start Unicorn'
-  task :start do
-    on roles(:app) do
-      within release_path do
-        with rails_env: fetch(:rails_env) do
-          if test("[ -e #{pidfile} ] && kill -0 #{pid}")
-            info "unicorn is running..."
-          else
-            execute :bundle, "exec unicorn", "-c", unicorn_config_path(current_path), "-E", fetch(:rails_env), "-D"
-          end
-        end
-      end
-    end
-  end
-
-  desc 'Stop Unicorn (QUIT)'
-  task :stop do
-    on roles(:app) do
-      within release_path do
-        if test("[ -e #{pidfile} ] && kill -0 #{pid}")
-          info "stopping unicorn..."
-          execute :kill, "-s QUIT", pid
-          execute :rm, pidfile
-        else
-          info "unicorn is not running..."
-        end
       end
     end
   end
@@ -57,6 +69,7 @@ namespace :unicorn do
   task :add_worker do
     on roles(:app) do
       within release_path do
+        info "adding worker"
         execute :kill, "-s TTIN", pid
       end
     end
@@ -66,28 +79,17 @@ namespace :unicorn do
   task :remove_worker do
     on roles(:app) do
       within release_path do
+        info "removing worker"
         execute :kill, "-s TTOU", pid
       end
     end
   end
 end
 
-def unicorn_config_path(current_path)
-  File.join(current_path, "config", "unicorn", "#{fetch(:rails_env)}.rb")
-end
-
 def pid
-  "`cat #{pidfile}`"
+  "`cat #{fetch(:unicorn_pid)}`"
 end
 
-def pidfile
-  File.join(shared_path, "pids", "unicorn.pid")
-end
-
-def oldpid
-  capture("cat #{pidfile_oldbin}")
-end
-
-def pidfile_oldbin
-  pidfile + ".oldbin"
+def pid_oldbin
+  "`cat #{fetch(:unicorn_pid)}.oldbin`"
 end
