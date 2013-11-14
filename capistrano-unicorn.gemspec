@@ -9,6 +9,7 @@ Gem::Specification.new do |gem|
   gem.description   = "Unicorn specific Capistrano tasks"
   gem.summary       = "Unicorn specific Capistrano tasks"
   gem.homepage      = "https://github.com/mlineen/capistrano-unicorn"
+  gem.license       = "MIT"
 
   gem.files         = `git ls-files`.split($/)
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
