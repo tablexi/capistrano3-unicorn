@@ -32,7 +32,7 @@ Add the library to your `Gemfile`:
 
 ```ruby
 group :development do
-  gem 'capistrano-unicorn', git: 'https://github.com/mlineen/capistrano-unicorn.git'
+  gem 'capistrano-unicorn', git: 'https://github.com/tablexi/capistrano-unicorn.git'
 end
 ```
 
