@@ -42,7 +42,7 @@ Add the library to your `Capfile`:
 require 'capistrano/unicorn'
 ```
 
-Invoke Unicorn from your `config/ENVIRONMENT.rb`:
+Invoke Unicorn from your `config/deploy/ENVIRONMENT.rb`:
 
 If `preload_app:true` use:
 
