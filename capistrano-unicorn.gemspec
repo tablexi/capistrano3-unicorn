@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["matthew@lineen.com"]
   gem.description   = "Unicorn specific Capistrano tasks"
   gem.summary       = "Unicorn specific Capistrano tasks"
-  gem.homepage      = "https://github.com/mlineen/capistrano-unicorn"
+  gem.homepage      = "https://github.com/tablexi/capistrano-unicorn"
   gem.license       = "MIT"
 
   gem.files         = `git ls-files`.split($/)
