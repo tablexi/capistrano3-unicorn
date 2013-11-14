@@ -4,7 +4,7 @@ This is a capistrano v3 plugin that integrates Unicorn tasks into capistrano dep
 
 ### Gotchas
 
-- The `unicorn:start` task invokes unicorn as `bundle exec unicorn`.  If you don't want this, too bad.
+- The `unicorn:start` task invokes unicorn as `bundle exec unicorn`.  If you don't want this, you're out of luck for now.
 
 - When running tasks not during a full deployment, you may need to run the `rvm:hook`:
 
