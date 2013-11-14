@@ -12,7 +12,7 @@ This is a capistrano v3 plugin that integrates Unicorn tasks into capistrano dep
 
 ### Conventions
 
-You can override the defaults by `set :unicorn_example, value` in the `deploy.rb` or `config/deploy/ENVIRONMENT.rb` capistrano deployment files
+You can override the defaults by `set :unicorn_example, value` in the `config/deploy.rb` or `config/deploy/ENVIRONMENT.rb` capistrano deployment files
 
 - `:unicorn_pid`
 
