@@ -1,10 +1,10 @@
-# Capistrano Unicorn
+# Capistrano3 Unicorn
 
-This is a capistrano v3 plugin that integrates Unicorn tasks into capistrano deployment scripts; it was heavily inspired by [sosedoff/capistrano-unicorn](https://github.com/sosedoff/capistrano-unicorn) but written from scratch to use the capistrano 3 syntax and be markedly simpler.
+This is a capistrano v3 plugin that integrates Unicorn tasks into capistrano deployment scripts; it was heavily inspired by [sosedoff/capistrano-unicorn](https://github.com/sosedoff/capistrano-unicorn) but written from scratch to use the capistrano 3 syntax.
 
 ### Gotchas
 
-- The `unicorn:start` task invokes unicorn as `bundle exec unicorn`.  If you don't want this, you're out of luck for now.
+- The `unicorn:start` task invokes unicorn as `bundle exec unicorn`.
 
 - When running tasks not during a full deployment, you may need to run the `rvm:hook`:
 
@@ -21,7 +21,7 @@ You can override the defaults by `set :unicorn_example, value` in the `config/de
 - `:unicorn_config_path`
 
     Assumes that your Unicorn configuration will be located in `config/unicorn/RAILS_ENV.rb`
-    
+
 - `:unicorn_restart_sleep_time`
 
     When performing zero-downtime deployment via the `unicorn:restart` task, send the USR2 signal, sleep for this many seconds (defaults to 3), then send the QUIT signal
@@ -32,14 +32,14 @@ Add the library to your `Gemfile`:
 
 ```ruby
 group :development do
-  gem 'capistrano-unicorn', git: 'https://github.com/tablexi/capistrano-unicorn.git'
+  gem 'capistrano3-unicorn'
 end
 ```
 
 Add the library to your `Capfile`:
 
 ```ruby
-require 'capistrano/unicorn'
+require 'capistrano3/unicorn'
 ```
 
 Invoke Unicorn from your `config/deploy.rb` or `config/deploy/ENVIRONMENT.rb`:
@@ -63,7 +63,3 @@ namespace :deploy do
   end
 end
 ```
-
-
-
-
