@@ -3,13 +3,14 @@ namespace :load do
     set :unicorn_pid, -> { File.join(shared_path, "pids", "unicorn.pid") }
     set :unicorn_config_path, -> { File.join(current_path, "config", "unicorn", "#{fetch(:rails_env)}.rb") }
     set :unicorn_restart_sleep_time, 3
+    set :unicorn_roles, -> { :app }
   end
 end
 
 namespace :unicorn do
   desc 'Start Unicorn'
   task :start do
-    on roles(:app) do
+    on roles(fetch(:unicorn_roles)) do
       within release_path do
         with rails_env: fetch(:rails_env) do
           if test("[ -e #{fetch(:unicorn_pid)} ] && kill -0 #{pid}")
@@ -24,7 +25,7 @@ namespace :unicorn do
 
   desc 'Stop Unicorn (QUIT)'
   task :stop do
-    on roles(:app) do
+    on roles(fetch(:unicorn_roles)) do
       within release_path do
         if test("[ -e #{fetch(:unicorn_pid)} ]")
           if test("kill -0 #{pid}")
@@ -44,7 +45,7 @@ namespace :unicorn do
   desc 'Reload Unicorn (HUP); use this when preload_app: false'
   task :reload do
     invoke 'unicorn:start'
-    on roles(:app) do
+    on roles(fetch(:unicorn_roles)) do
       within release_path do
         info "reloading..."
         execute :kill, "-s HUP", pid
@@ -55,7 +56,7 @@ namespace :unicorn do
   desc 'Restart Unicorn (USR2 + QUIT); use this when preload_app: true'
   task :restart do
     invoke 'unicorn:start'
-    on roles(:app) do
+    on roles(fetch(:unicorn_roles)) do
       within release_path do
         info "unicorn restarting..."
         execute :kill, "-s USR2", pid
@@ -69,7 +70,7 @@ namespace :unicorn do
 
   desc 'Add a worker (TTIN)'
   task :add_worker do
-    on roles(:app) do
+    on roles(fetch(:unicorn_roles)) do
       within release_path do
         info "adding worker"
         execute :kill, "-s TTIN", pid
@@ -79,7 +80,7 @@ namespace :unicorn do
 
   desc 'Remove a worker (TTOU)'
   task :remove_worker do
-    on roles(:app) do
+    on roles(fetch(:unicorn_roles)) do
       within release_path do
         info "removing worker"
         execute :kill, "-s TTOU", pid

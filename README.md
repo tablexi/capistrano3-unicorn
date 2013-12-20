@@ -26,6 +26,10 @@ You can override the defaults by `set :unicorn_example, value` in the `config/de
 
     When performing zero-downtime deployment via the `unicorn:restart` task, send the USR2 signal, sleep for this many seconds (defaults to 3), then send the QUIT signal
 
+- `:unicorn_roles`
+
+    Roles to run unicorn commands on. Defaults to :app
+
 ### Setup
 
 Add the library to your `Gemfile`:
