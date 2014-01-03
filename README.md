@@ -30,6 +30,10 @@ You can override the defaults by `set :unicorn_example, value` in the `config/de
 
     Roles to run unicorn commands on. Defaults to :app
 
+- `:unicorn_options`
+
+    Set any additional options to be passed to unicorn on startup. Defaults to none
+
 ### Setup
 
 Add the library to your `Gemfile`:
