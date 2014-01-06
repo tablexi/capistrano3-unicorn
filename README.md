@@ -34,6 +34,10 @@ You can override the defaults by `set :unicorn_example, value` in the `config/de
 
     Set any additional options to be passed to unicorn on startup. Defaults to none
 
+- `:unicorn_rack_env`
+
+    Set the RACK_ENV. Defaults to deployment unless the RAILS_ENV is development. Valid options are "development", "deployment", or "none". See the [RACK ENVIRONMENT](http://unicorn.bogomips.org/unicorn_1.html) section of the unicorn documentation for more information.
+
 ### Setup
 
 Add the library to your `Gemfile`:
