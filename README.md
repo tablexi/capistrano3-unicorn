@@ -59,6 +59,7 @@ Invoke Unicorn from your `config/deploy.rb` or `config/deploy/ENVIRONMENT.rb`:
 If `preload_app:true` use:
 
 ```ruby
+after 'deploy:publishing', 'deploy:restart'
 namespace :deploy do
   task :restart do
     invoke 'unicorn:restart'
@@ -69,9 +70,12 @@ end
 Otherwise use:
 
 ```ruby
+after 'deploy:publishing', 'deploy:restart'
 namespace :deploy do
   task :restart do
-    invoke 'unicorn:reload'
+    invoke 'unicorn:restart'
   end
 end
 ```
+
+Note that the after hook is needed from Capistrano 3.1 forward.
