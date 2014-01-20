@@ -73,9 +73,11 @@ Otherwise use:
 after 'deploy:publishing', 'deploy:restart'
 namespace :deploy do
   task :restart do
-    invoke 'unicorn:restart'
+    invoke 'unicorn:reload'
   end
 end
 ```
+
+Note that presently you must put the `invoke` outside any `on` block since the task handles this for you; otherwise you will get an `undefined method `verbosity'` error.
 
 Note that the after hook is needed from Capistrano 3.1 forward.
