@@ -78,6 +78,6 @@ namespace :deploy do
 end
 ```
 
-Note that presently you must put the `invoke` outside any `on` block since the task handles this for you; otherwise you will get an `undefined method `verbosity'` error.
+Note that presently you must put the `invoke` outside any `on` block since the task handles this for you; otherwise you will get an `undefined method 'verbosity'` error.
 
 Note that the after hook is needed from Capistrano 3.1 forward.
