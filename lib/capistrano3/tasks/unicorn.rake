@@ -1,17 +1,17 @@
 namespace :load do
   task :defaults do
-    set :unicorn_pid, -> { File.join(shared_path, "pids", "unicorn.pid") }
+    set :unicorn_pid, -> { File.join(current_path, "tmp", "pids", "unicorn.pid") }
     set :unicorn_config_path, -> { File.join(current_path, "config", "unicorn", "#{fetch(:rails_env)}.rb") }
     set :unicorn_restart_sleep_time, 3
     set :unicorn_roles, -> { :app }
-    set :unicorn_options, -> { '' }
-    set :unicorn_rack_env, -> { fetch(:rails_env) == 'development' ? 'development' : 'deployment' }
-    set :unicorn_bundle_gemfile, -> { current_path.join('Gemfile') }
+    set :unicorn_options, -> { "" }
+    set :unicorn_rack_env, -> { fetch(:rails_env) == "development" ? "development" : "deployment" }
+    set :unicorn_bundle_gemfile, -> { fetch(:bundle_gemfile, File.join(current_path, "Gemfile")) }
   end
 end
 
 namespace :unicorn do
-  desc 'Start Unicorn'
+  desc "Start Unicorn"
   task :start do
     on roles(fetch(:unicorn_roles)) do
       within current_path do
@@ -26,7 +26,7 @@ namespace :unicorn do
     end
   end
 
-  desc 'Stop Unicorn (QUIT)'
+  desc "Stop Unicorn (QUIT)"
   task :stop do
     on roles(fetch(:unicorn_roles)) do
       within current_path do
@@ -45,9 +45,9 @@ namespace :unicorn do
     end
   end
 
-  desc 'Reload Unicorn (HUP); use this when preload_app: false'
+  desc "Reload Unicorn (HUP); use this when preload_app: false"
   task :reload do
-    invoke 'unicorn:start'
+    invoke "unicorn:start"
     on roles(fetch(:unicorn_roles)) do
       within current_path do
         info "reloading..."
@@ -56,9 +56,9 @@ namespace :unicorn do
     end
   end
 
-  desc 'Restart Unicorn (USR2 + QUIT); use this when preload_app: true'
+  desc "Restart Unicorn (USR2 + QUIT); use this when preload_app: true"
   task :restart do
-    invoke 'unicorn:start'
+    invoke "unicorn:start"
     on roles(fetch(:unicorn_roles)) do
       within current_path do
         info "unicorn restarting..."
@@ -71,7 +71,7 @@ namespace :unicorn do
     end
   end
 
-  desc 'Add a worker (TTIN)'
+  desc "Add a worker (TTIN)"
   task :add_worker do
     on roles(fetch(:unicorn_roles)) do
       within current_path do
@@ -81,7 +81,7 @@ namespace :unicorn do
     end
   end
 
-  desc 'Remove a worker (TTOU)'
+  desc "Remove a worker (TTOU)"
   task :remove_worker do
     on roles(fetch(:unicorn_roles)) do
       within current_path do
