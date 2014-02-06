@@ -15,10 +15,10 @@ namespace :unicorn do
   task :start do
     on roles(fetch(:unicorn_roles)) do
       within current_path do
-        with rails_env: fetch(:rails_env), bundle_gemfile: fetch(:unicorn_bundle_gemfile) do
-          if test("[ -e #{fetch(:unicorn_pid)} ] && kill -0 #{pid}")
-            info "unicorn is running..."
-          else
+        if test("[ -e #{fetch(:unicorn_pid)} ] && kill -0 #{pid}")
+          info "unicorn is running..."
+        else
+          with rails_env: fetch(:rails_env), bundle_gemfile: fetch(:unicorn_bundle_gemfile) do
             execute :bundle, "exec unicorn", "-c", fetch(:unicorn_config_path), "-E", fetch(:unicorn_rack_env), "-D", fetch(:unicorn_options)
           end
         end
