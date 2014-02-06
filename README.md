@@ -16,7 +16,7 @@ You can override the defaults by `set :unicorn_example, value` in the `config/de
 
 - `:unicorn_pid`
 
-    Assumes your pid file will be located in the application's shared path `.../shared/pids/unicorn.pid` so that it survives zero-downtime re-deployments
+    Assumes your pid file will be located in `tmp/pids/unicorn.pid` which is symlinked by `:linked_dirs` to survive across deployments
 
 - `:unicorn_config_path`
 
@@ -79,5 +79,3 @@ end
 ```
 
 Note that presently you must put the `invoke` outside any `on` block since the task handles this for you; otherwise you will get an `undefined method 'verbosity'` error.
-
-Note that the after hook is needed from Capistrano 3.1 forward.
