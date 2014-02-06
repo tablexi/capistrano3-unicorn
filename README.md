@@ -17,6 +17,8 @@ You can override the defaults by `set :unicorn_example, value` in the `config/de
 - `:unicorn_pid`
 
     Assumes your pid file will be located in `tmp/pids/unicorn.pid` which is symlinked by `:linked_dirs` to survive across deployments
+    
+    *NOTE: THIS PATH WAS CHANGED AS OF v0.1.0*
 
 - `:unicorn_config_path`
 
@@ -37,6 +39,10 @@ You can override the defaults by `set :unicorn_example, value` in the `config/de
 - `:unicorn_rack_env`
 
     Set the RACK_ENV. Defaults to deployment unless the RAILS_ENV is development. Valid options are "development", "deployment", or "none". See the [RACK ENVIRONMENT](http://unicorn.bogomips.org/unicorn_1.html) section of the unicorn documentation for more information.
+
+- `:unicorn_bundle_gemfile`
+
+    Sets the BUNDLE_GEMFILE so that unicorn will point at the new Gemfile after unicorn:restart. Defaults to `:bundle_gemfile` if defined, `current/Gemfile` otherwise.
 
 ### Setup
 
