@@ -6,7 +6,7 @@ namespace :load do
     set :unicorn_roles, -> { :app }
     set :unicorn_options, -> { "" }
     set :unicorn_rack_env, -> { fetch(:rails_env) == "development" ? "development" : "deployment" }
-    set :unicorn_bundle_gemfile, -> { fetch(:bundle_gemfile, File.join(current_path, "Gemfile")) }
+    set :unicorn_bundle_gemfile, -> { File.join(current_path, "Gemfile") }
   end
 end
 

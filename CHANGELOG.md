@@ -1,5 +1,9 @@
 # Capistrano3 Unicorn Changelog
 
+## `0.1.1`
+
+- Removed default value for `:unicorn_bundle_gemfile` of `:bundle_gemfile` so that current_path is the default
+
 ## `0.1.0`
 
 - Changed default location of `:unicorn_pid`
