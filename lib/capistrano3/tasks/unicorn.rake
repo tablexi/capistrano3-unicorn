@@ -71,6 +71,17 @@ namespace :unicorn do
     end
   end
 
+  desc "Restart Unicorn (USR2); use this when before_fork manages the old pid and preload_app: true"
+  task :duplicate do
+    invoke "unicorn:start"
+    on roles(fetch(:unicorn_roles)) do
+      within current_path do
+        info "unicorn restarting..."
+        execute :kill, "-s USR2", pid
+      end
+    end
+  end
+
   desc "Add a worker (TTIN)"
   task :add_worker do
     on roles(fetch(:unicorn_roles)) do
