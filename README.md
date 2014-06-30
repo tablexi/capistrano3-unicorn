@@ -62,7 +62,7 @@ require 'capistrano3/unicorn'
 
 Invoke Unicorn from your `config/deploy.rb` or `config/deploy/ENVIRONMENT.rb`:
 
-**Recommended**: If `preload_app:true` and there is a `before_fork` block which manages the old unicorn process use the `unicorn:restart` task:
+**Recommended**: If `preload_app:true` and there is a `before_fork` block which manages the old unicorn process (see [example unicorn config](https://github.com/tablexi/capistrano3-unicorn/examples/config/unicorn.rb)) use the `unicorn:restart` task:
 
 ```ruby
 after 'deploy:publishing', 'deploy:restart'
@@ -84,7 +84,7 @@ namespace :deploy do
 end
 ```
 
-Without `preload_app:true` use:
+Without `preload_app:true` use the `unicorn:reload` task:
 
 ```ruby
 after 'deploy:publishing', 'deploy:restart'
