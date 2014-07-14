@@ -12,21 +12,17 @@ This is a capistrano v3 plugin that integrates Unicorn tasks into capistrano dep
 
 ### Conventions
 
-You can override the defaults by `set :unicorn_example, value` in the `config/deploy.rb` or `config/deploy/ENVIRONMENT.rb` capistrano deployment files
+You can override the defaults by `set :unicorn_example, value` in the `config/deploy.rb` or `config/deploy/ENVIRONMENT.rb` capistrano deployment files.
+
+Example Unicorn config [examples/unicorn.rb](https://github.com/tablexi/capistrano3-unicorn/blob/master/examples/unicorn.rb)
 
 - `:unicorn_pid`
 
-    Assumes your pid file will be located in `tmp/pids/unicorn.pid` which is symlinked by `:linked_dirs` to survive across deployments
-
-    *NOTE: THIS PATH WAS CHANGED AS OF v0.1.0*
+    Default assumes your pid file will be located in `CURRENT_PATH/tmp/pids/unicorn.pid`. The unicorn_pid should be defined with an absolute path.
 
 - `:unicorn_config_path`
 
-    Assumes that your Unicorn configuration will be located in `config/unicorn/RAILS_ENV.rb`
-
-- `:unicorn_restart_sleep_time`
-
-    When performing zero-downtime deployment via the `unicorn:restart` task, send the USR2 signal, sleep for this many seconds (defaults to 3), then send the QUIT signal
+    Default assumes that your Unicorn configuration will be located in `CURRENT_PATH/config/unicorn/RAILS_ENV.rb` or `CURRENT_PATH/config/unicorn.rb`
 
 - `:unicorn_roles`
 
@@ -42,7 +38,13 @@ You can override the defaults by `set :unicorn_example, value` in the `config/de
 
 - `:unicorn_bundle_gemfile`
 
-    Sets the BUNDLE_GEMFILE so that unicorn will point at the new Gemfile after unicorn:restart. Defaults to `current/Gemfile`.
+    ***REMOVED in v0.2.0***
+
+    Set the BUNDLE_GEMFILE in a before_exec block in your unicorn.rb. See [sandbox](http://unicorn.bogomips.org/Sandbox.html) and [unicorn-restart-issue-with-capistrano](https://stackoverflow.com/questions/8330577/unicorn-restart-issue-with-capistrano)
+
+- `:unicorn_restart_sleep_time`
+
+    In `unicorn:legacy_restart` send the USR2 signal, sleep for this many seconds (defaults to 3), then send the QUIT signal
 
 ### Setup
 
@@ -69,6 +71,17 @@ after 'deploy:publishing', 'deploy:restart'
 namespace :deploy do
   task :restart do
     invoke 'unicorn:restart'
+  end
+end
+```
+
+If `preload_app:true` and you need capistrano to cleanup your oldbin pid use:
+
+```ruby
+after 'deploy:publishing', 'deploy:restart'
+namespace :deploy do
+  task :restart do
+    invoke 'unicorn:legacy_restart'
   end
 end
 ```

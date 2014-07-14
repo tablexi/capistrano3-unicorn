@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |gem|
   gem.name          = "capistrano3-unicorn"
-  gem.version       = '0.1.1'
+  gem.version       = '0.2.0'
   gem.authors       = ["Matthew Lineen"]
   gem.email         = ["matthew@lineen.com"]
   gem.description   = "Unicorn specific Capistrano tasks"

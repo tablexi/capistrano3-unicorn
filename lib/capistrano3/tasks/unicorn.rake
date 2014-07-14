@@ -8,11 +8,10 @@ namespace :load do
         File.join(current_path, "config", "unicorn.rb")
       end
     end
-    set :unicorn_restart_sleep_time, 3
     set :unicorn_roles, -> { :app }
     set :unicorn_options, -> { "" }
     set :unicorn_rack_env, -> { fetch(:rails_env) == "development" ? "development" : "deployment" }
-    set :unicorn_bundle_gemfile, -> { File.join(current_path, "Gemfile") }
+    set :unicorn_restart_sleep_time, 3
   end
 end
 
@@ -24,7 +23,7 @@ namespace :unicorn do
         if test("[ -e #{fetch(:unicorn_pid)} ] && kill -0 #{pid}")
           info "unicorn is running..."
         else
-          with rails_env: fetch(:rails_env), bundle_gemfile: fetch(:unicorn_bundle_gemfile) do
+          with rails_env: fetch(:rails_env) do
             execute :bundle, "exec unicorn", "-c", fetch(:unicorn_config_path), "-E", fetch(:unicorn_rack_env), "-D", fetch(:unicorn_options)
           end
         end
@@ -62,13 +61,27 @@ namespace :unicorn do
     end
   end
 
-  desc "Restart Unicorn (USR2 + QUIT); use this when preload_app: true"
+  desc "Restart Unicorn (USR2); use this when preload_app: true"
   task :restart do
     invoke "unicorn:start"
     on roles(fetch(:unicorn_roles)) do
       within current_path do
         info "unicorn restarting..."
         execute :kill, "-s USR2", pid
+      end
+    end
+  end
+
+  desc "Duplicate Unicorn; alias of unicorn:restart"
+  task :duplicate do
+    invoke "unicorn:restart"
+  end
+
+  desc "Legacy Restart (USR2 + QUIT); use this when preload_app: true and oldbin pid needs cleanup"
+  task :legacy_restart do
+    invoke "unicorn:restart"
+    on roles(fetch(:unicorn_roles)) do
+      within current_path do
         execute :sleep, fetch(:unicorn_restart_sleep_time)
         if test("[ -e #{fetch(:unicorn_pid)}.oldbin ]")
           execute :kill, "-s QUIT", pid_oldbin
