@@ -6,6 +6,7 @@
 - `unicorn:legacy_restart` preserves the QUIT to oldbin
 - `:unicorn_config_path` adds `config/unicorn/unicorn.rb` as a default path
 - added example unicorn.rb
+- removed `:unicorn_bundle_gemfile`, this should have been in a before_exec in the unicorn configuration
 
 Thanks to @spectator, @lxxdn, @ahorner, and @soulcutter
 

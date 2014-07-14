@@ -38,7 +38,9 @@ Example Unicorn config [examples/unicorn.rb](https://github.com/tablexi/capistra
 
 - `:unicorn_bundle_gemfile`
 
-    Sets the BUNDLE_GEMFILE so that unicorn will point at the new Gemfile after unicorn:restart. Defaults to `CURRENT_PATH/Gemfile`.
+    ***REMOVED in v0.2.0***
+
+    Set the BUNDLE_GEMFILE in a before_exec block in your unicorn.rb. See [sandbox](http://unicorn.bogomips.org/Sandbox.html) and [unicorn-restart-issue-with-capistrano](https://stackoverflow.com/questions/8330577/unicorn-restart-issue-with-capistrano)
 
 - `:unicorn_restart_sleep_time`
 
