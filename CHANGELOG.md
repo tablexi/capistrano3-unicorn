@@ -1,5 +1,14 @@
 # Capistrano3 Unicorn Changelog
 
+## `0.2.0`
+
+- `unicorn:restart` no longer sends QUIT to oldbin since most people use a callback in `unicorn.rb`
+- `unicorn:legacy_restart` preserves the QUIT to oldbin
+- `:unicorn_config_path` adds `config/unicorn/unicorn.rb` as a default path
+- added example unicorn.rb
+
+Thanks to @spectator, @lxxdn, @ahorner, and @soulcutter
+
 ## `0.1.1`
 
 - Removed default value for `:unicorn_bundle_gemfile` of `:bundle_gemfile` so that current_path is the default
