@@ -1,5 +1,9 @@
 # Capistrano3 Unicorn Changelog
 
+## Work in progress
+
+- Revert `:unicorn_config_path` falling back to `config/unicorn/unicorn.rb` due to flawed implementation
+
 ## `0.2.0`
 
 - `unicorn:restart` no longer sends QUIT to oldbin since most people use a callback in `unicorn.rb`
