@@ -1,6 +1,6 @@
 # Capistrano3 Unicorn Changelog
 
-## Work in progress
+## `0.2.1`
 
 - Revert `:unicorn_config_path` falling back to `config/unicorn/unicorn.rb` due to flawed implementation
 

@@ -22,7 +22,7 @@ Example Unicorn config [examples/unicorn.rb](https://github.com/tablexi/capistra
 
 - `:unicorn_config_path`
 
-    Default assumes that your Unicorn configuration will be located in `CURRENT_PATH/config/unicorn/RAILS_ENV.rb` or `CURRENT_PATH/config/unicorn.rb`
+    Default assumes that your Unicorn configuration will be located in `CURRENT_PATH/config/unicorn/RAILS_ENV.rb`
 
 - `:unicorn_roles`
 
