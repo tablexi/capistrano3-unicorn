@@ -98,3 +98,5 @@ end
 ```
 
 Note that presently you must put the `invoke` outside any `on` block since the task handles this for you; otherwise you will get an `undefined method 'verbosity'` error.
+
+Ensure that your `unicorn_pid` directory has been added Capistrano's [`linked_dirs`](http://capistranorb.com/documentation/getting-started/configuration/#variables). Otherwise unicorn workers will not be properly killed/restarted.
