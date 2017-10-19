@@ -1,10 +1,10 @@
 namespace :load do
   task :defaults do
     set :unicorn_pid, -> { File.join(current_path, "tmp", "pids", "unicorn.pid") }
-    set :unicorn_config_path, -> { File.join(current_path, "config", "unicorn", "#{fetch(:rails_env)}.rb") }
+    set :unicorn_rack_env, -> { fetch(:rails_env) ? fetch(:rails_env) : "deployment" }
+    set :unicorn_config_path, -> { File.join(current_path, "config", "unicorn", "#{fetch(:unicorn_rack_env)}.rb") }
     set :unicorn_roles, -> { :app }
     set :unicorn_options, -> { "" }
-    set :unicorn_rack_env, -> { fetch(:rails_env) == "development" ? "development" : "deployment" }
     set :unicorn_restart_sleep_time, 3
   end
 end
