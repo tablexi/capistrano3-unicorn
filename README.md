@@ -4,7 +4,7 @@ This is a capistrano v3 plugin that integrates Unicorn tasks into capistrano dep
 
 ### Gotchas
 
-- The `unicorn:start` task invokes unicorn as `bundle exec unicorn`.
+- The `unicorn:start` task invokes unicorn as `bundle exec unicorn` by default.
 
 - When running tasks not during a full deployment, you may need to run the `rvm:hook`:
 
@@ -15,6 +15,10 @@ This is a capistrano v3 plugin that integrates Unicorn tasks into capistrano dep
 You can override the defaults by `set :unicorn_example, value` in the `config/deploy.rb` or `config/deploy/ENVIRONMENT.rb` capistrano deployment files.
 
 Example Unicorn config [examples/unicorn.rb](https://github.com/tablexi/capistrano3-unicorn/blob/master/examples/unicorn.rb)
+
+- `:unicorn_exec`
+
+    Default assumes using 'unicorn'. 'unicorn_rails' may be used instead.
 
 - `:unicorn_pid`
 
